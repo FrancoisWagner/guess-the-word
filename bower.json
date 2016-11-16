@@ -1,8 +1,8 @@
 {
-  "name": "guess-the-words",
+  "name": "guess-the-word",
   "description": "Little game to get back to AngularJS.",
   "version": "0.0.0",
-  "homepage": "https://github.com/FrancoisWagner/guess-the-words",
+  "homepage": "https://github.com/FrancoisWagner/guess-the-word",
   "license": "MIT",
   "private": true,
   "dependencies": {
@@ -10,6 +10,6 @@
     "angular-route": "~1.5.0",
     "angular-loader": "~1.5.0",
     "angular-mocks": "~1.5.0",
-    "html5-boilerplate": "^5.3.0"
+    "bootstrap": "^3.3.x"
   }
 }
