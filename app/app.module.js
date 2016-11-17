@@ -6,20 +6,31 @@ angular.module('guessTheWordApp', [
   'game',
   'highscores',
   'ngCookies'
-]).controller('ApplicationController', ['$scope', '$cookies', function ($scope, $cookies) {
+]).controller('ApplicationController', ['User', '$scope', '$cookies', function (User, $scope, $cookies) {
 	$scope.currentUser = null;
 	
-	$scope.setCurrentUser = function (user) {
-		$scope.currentUser = user;
+	$scope.setCurrentUser = function(id, name) {
+		$scope.currentUser = name;
 		
 		if(!$cookies.get('user')){
-			$cookies.put('user', $scope.currentUser);
+			$cookies.put('user', id);
 		}
 	}
 	
-	// Retrieving username if exists
-	if($cookies.get('user')){
-		$scope.setCurrentUser($cookies.get('user'));
+	$scope.signOut = function() {
+		$scope.currentUser = null;
+		$cookies.remove('user');
 	}
-	  
+
+	// Retrieving user if exists
+	if($cookies.get('user')){
+		User.get({id:$cookies.get('user')}).$promise.then(function(user) {
+			if(user.name){
+				$scope.setCurrentUser($cookies.get('user'), user.name);
+			}
+			else{
+				$cookies.remove('user');
+			}
+		});
+	}
 }]);

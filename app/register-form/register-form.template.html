@@ -1,5 +1,5 @@
 <h2>Register</h2>
-<form name="myRegisterForm" ng-submit="$ctrl.submit()">
+<form name="myRegisterForm" ng-submit="myRegisterForm.$valid && $ctrl.submitEnabled && $ctrl.submit()">
 	<div class="row">
 		<div class="form-group col-md-8"
 			ng-class="{' has-error' : myRegisterForm.userName.$error.minlength || myRegisterForm.userName.$error.maxlength}">
@@ -9,7 +9,7 @@
 					name="userName" ng-model="$ctrl.user.name" ng-minlength="4"
 					ng-maxlength="10" />
 				<span class="input-group-btn">
-					<button class="btn btn-primary" type="submit">Submit</button>
+					<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Sign-in</button>
 				</span>
 			</div>
 			<span class="help-block"
