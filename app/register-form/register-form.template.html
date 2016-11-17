@@ -1,0 +1,23 @@
+<h2>Register</h2>
+<form name="myRegisterForm" ng-submit="$ctrl.submit()">
+	<div class="row">
+		<div class="form-group col-md-8"
+			ng-class="{' has-error' : myRegisterForm.userName.$error.minlength || myRegisterForm.userName.$error.maxlength}">
+			<label class="control-label" for="userName">Enter your name</label>
+			<div class="input-group">
+				<input class="form-control" id="userName" placeholder="Name"
+					name="userName" ng-model="$ctrl.user.name" ng-minlength="4"
+					ng-maxlength="10" />
+				<span class="input-group-btn">
+					<button class="btn btn-primary" type="submit">Submit</button>
+				</span>
+			</div>
+			<span class="help-block"
+				ng-show="myRegisterForm.userName.$error.minlength"> Your name
+				is too short, must be longer than 3 characters!</span> <span
+				class="help-block"
+				ng-show="myRegisterForm.userName.$error.maxlength"> Your name
+				is too long, must be shorter than 11 characters!</span>
+		</div>
+	</div>
+</form>

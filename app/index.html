@@ -3,7 +3,7 @@
 <!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html lang="en" ng-app="myApp" class="no-js">
+<html lang="en" ng-app="guessTheWordApp" class="no-js">
 <!--<![endif]-->
 <head>
 <meta charset="utf-8">
@@ -15,7 +15,7 @@
 	href="bower_components/bootstrap/dist/css/bootstrap.css" />
 <link rel="stylesheet" href="app.css">
 </head>
-<body>
+<body ng-controller="ApplicationController">
 	<div class="header">
 		<div class="container">
 			<h1>Guess the Word</h1>
@@ -30,65 +30,11 @@
 
 		<div class="row">
 			<div class="col-md-8">
-			 <h2>Register</h2>
-				<form>
-					<div class="row">
-						<div class="form-group col-md-4">
-							<label for="inputMail">Enter your name</label> <input
-								class="form-control" id="inputMail" placeholder="Name">
-						</div>
-					</div>
-				</form>
-				<h2>Time to play!</h2>
-				
+				<register-form ng-show="!currentUser"></register-form>
+				<game ng-show="currentUser"></game>
 			</div>
 			<div class="col-md-4">
-			  <h2>Highscores</h2>
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Name</th>
-							<th>Best score</th>
-							<th>Statistics</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Bob</td>
-							<td>25</td>
-							<td>
-								<button type="button" class="btn btn-sm btn-default"
-									aria-label="Display stats.">
-									<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Alice</td>
-							<td>20</td>
-							<td>
-								<button type="button" class="btn btn-sm btn-default"
-									aria-label="Display stats.">
-									<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td>François</td>
-							<td>12</td>
-							<td>
-								<button type="button" class="btn btn-sm btn-default"
-									aria-label="Display stats.">
-									<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<highscores></highscores>
 			</div>
 		</div>
 	</div>
@@ -96,8 +42,30 @@
 	<!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
+	<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyCsjRLSjACcSq5cOGpsu4Jk3UPhf-dWMqo",
+	    authDomain: "guess-the-word-52c1c.firebaseapp.com",
+	    databaseURL: "https://guess-the-word-52c1c.firebaseio.com",
+	    storageBucket: "guess-the-word-52c1c.appspot.com",
+	    messagingSenderId: "1095123326171"
+	  };
+	  firebase.initializeApp(config);
+	</script>
 	<script src="bower_components/angular/angular.js"></script>
-	<script src="bower_components/angular-route/angular-route.js"></script>
-	<script src="app.js"></script>
+	<script src="bower_components/angular-resource/angular-resource.js"></script>
+	<script src="app.module.js"></script>
+	<script src="app.config.js"></script>
+	<script src="core/core.module.js"></script>
+	<script src="core/user/user.module.js"></script>
+	<script src="core/user/user.service.js"></script>
+	<script src="register-form/register-form.module.js"></script>
+	<script src="register-form/register-form.component.js"></script>
+	<script src="game/game.module.js"></script>
+	<script src="game/game.component.js"></script>
+	<script src="highscores/highscores.module.js"></script>
+	<script src="highscores/highscores.component.js"></script>
 </body>
 </html>
