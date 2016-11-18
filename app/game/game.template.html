@@ -1,1 +1,12 @@
 <h2>Time to play {{ $parent.currentUser }}!<button type="button" class="btn btn-danger pull-right" ng-click="$parent.signOut()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Sign-out</button></h2>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <input class="form-control" ng-model="$ctrl.searchWord" ng-change="$ctrl.update()" ng-show="$ctrl.countDown > 0" ng-disabled="!$ctrl.gameReady"/>
+    </div>
+    <div class="col-md-2">
+      <p class="clock">{{ $ctrl.countDown }}</p>
+    </div>
+  </div>
+</div>

@@ -2,9 +2,9 @@
 
 angular.
   module('core.user').
-  factory('User', ['$resource', 'RESTAPI_CONFIG',
-    function($resource, restApiConfig) {
-      return $resource(restApiConfig.DATABASE_URL + '/users.json', {}, {
+  factory('User', ['$resource', 'CONFIG',
+    function($resource, config) {
+      return $resource(config.DATABASE_URL + '/users.json', {}, {
           query: {
         	  method: "GET",
         	  isArray: false
@@ -12,12 +12,12 @@ angular.
           create: {
         	  method: "PUT",
         	  params: {id: 'id'},
-        	  url: restApiConfig.DATABASE_URL + "/users/:id.json"
+        	  url: config.DATABASE_URL + "/users/:id.json"
           },
           get: {
         	  method: "GET",
         	  params: {id: 'id'},
-        	  url: restApiConfig.DATABASE_URL + "/users/:id.json"
+        	  url: config.DATABASE_URL + "/users/:id.json"
           }
       });
   	}

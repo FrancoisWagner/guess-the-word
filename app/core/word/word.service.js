@@ -2,9 +2,9 @@
 
 angular.
 module('core.word').
-factory('Word', ['$resource', 'RESTAPI_CONFIG',
-  function($resource, restApiConfig) {
-    return $resource(restApiConfig.DATABASE_URL + '/words.json', {}, {
+factory('Word', ['$resource', 'CONFIG',
+  function($resource, config) {
+    return $resource(config.DATABASE_URL + '/words.json', {}, {
       query: {
         method: 'GET'
       },

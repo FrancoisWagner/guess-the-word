@@ -10,6 +10,7 @@ angular.module('registerForm').component('registerForm', {
 			name : ''
 		};
 		self.submitEnabled = true;
+		
 		self.submit = function() {	
 			self.submitEnabled = false;
 			if (self.user.name) {
@@ -24,8 +25,7 @@ angular.module('registerForm').component('registerForm', {
 							register_timestamp : Date.now()
 						};
 						User.create({id:self.key}, dataObj).$promise.then(function(data) {
-							self.user.name = '';
-							self.submitEnabled = true;
+							resetForm();
 							
 							$scope.$parent.setCurrentUser(self.key, data.name);
 			                
@@ -33,10 +33,17 @@ angular.module('registerForm').component('registerForm', {
 			            });
 					}
 					else {
+						resetForm();
+						
 						$scope.$parent.setCurrentUser(self.key, data.name);
 					}
 				});
 			}
 		};
+		
+		function resetForm(){
+			self.user.name = '';
+			self.submitEnabled = true;
+		}
 	}]
 });

@@ -2,10 +2,9 @@
 
 angular.
   module('core.score').
-  factory('Score', ['$resource', 'RESTAPI_CONFIG',
-    function($resource, restApiConfig) {
-	  var hostUrl = restApiConfig.hostUrl;
-      return $resource(hostUrl + '/scores.json', {}, {
+  factory('Score', ['$resource', 'CONFIG',
+    function($resource, config) {
+      return $resource(config.DATABASE_URL + '/scores.json', {}, {
         query: {
           method: 'GET'
         }
