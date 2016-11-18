@@ -7,6 +7,9 @@ angular.
       return $resource(config.DATABASE_URL + '/scores.json', {}, {
         query: {
           method: 'GET'
+        },
+        create: {
+      	  method: "POST"
         }
       });
     }

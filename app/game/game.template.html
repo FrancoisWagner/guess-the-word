@@ -2,10 +2,30 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-6">
-      <input class="form-control" ng-model="$ctrl.searchWord" ng-change="$ctrl.update()" ng-show="$ctrl.countDown > 0" ng-disabled="!$ctrl.gameReady"/>
+    <div class="col-md-4">
+      <p>
+        <button
+            ng-repeat="letter in $ctrl.currentWordArray track by $index"
+            class="btn btn-default"
+            style="margin-right: 10px; margin-bottom: 10px;">
+            {{ letter }}
+        </button>
+      </p>
+      <p>
+        <input class="form-control" 
+                ng-model="$ctrl.searchWord"
+                ng-change="$ctrl.update()"
+                ng-show="$ctrl.countDown > 0"
+                ng-disabled="!$ctrl.gameReady"
+                ng-keydown="$ctrl.detectBackspace($event)" />
+      </p>
     </div>
     <div class="col-md-2">
+      <h3>Score</h3>
+      <p class="clock">{{ $ctrl.totalScore }}</p>
+    </div>
+    <div class="col-md-2">
+      <h3>Time</h3>
       <p class="clock">{{ $ctrl.countDown }}</p>
     </div>
   </div>

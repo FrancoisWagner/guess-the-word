@@ -4,20 +4,30 @@
 // template
 angular.module('game').component('game', {
 	templateUrl : 'game/game.template.html',
-	controller : ['Word', 'CONFIG', '$scope', '$interval', '$q', '$http', function GameController(Word, config, $scope, $interval, $q, $http) {
+	controller : ['Word', 'Score', 'CONFIG', '$cookies', '$scope', '$interval', '$q', '$http', function GameController(Word, Score, config, $cookies, $scope, $interval, $q, $http) {
 		var self = this;
 		
 		self.searchWord = '';
 		self.countDown = config.GAME_TIME;
 		self.startGame = undefined;
 		self.gameReady = false;
+		self.words = [];
+		self.currentWordScore = 0;
+		self.totalScore = 0;
+		self.currentWordString = '';
+		self.currentWordArray = [];
 		
 		self.stopGame = function() {
           if (angular.isDefined(self.startGame)) {
             $interval.cancel(self.startGame);
             self.startGame = undefined;
+            var score = {
+            	user_id : $cookies.get('user'),
+            	score : self.totalScore
+            };
+            Score.create(score);
           }
-        };
+        }
         
         self.update = function() {
         	if(angular.isUndefined(self.startGame)){
@@ -30,13 +40,39 @@ angular.module('game').component('game', {
         			}
         		},1000,0);
         	}
+        	
+        	if(angular.equals(self.searchWord.toUpperCase(), self.currentWordString)){
+        		self.totalScore += self.currentWordScore;
+        		self.searchWord = '';
+        		self.newWord();
+        	}
+        }
+        
+        self.newWord = function(){
+        	self.currentWordString = self.words[Math.floor(Math.random() * self.words.length)];
+        	self.currentWordArray = self.currentWordString.split("");
+        	shuffleArray(self.currentWordArray);
+        	// max_score'='floor(1.95^(n/3))
+        	self.currentWordScore = Math.floor((Math.exp(1.95))*(self.currentWordArray.length/3));
+        	self.gameReady = true;
+        }
+        
+        self.detectBackspace = function (event){
+        	if (event.keyCode === 8) {
+        		if(self.currentWordScore > 0) {
+        			self.currentWordScore--;
+        		}
+        	}
         }
         
         var promise = getWords();
         promise.then(function(words) {
-        	self.words = words;
-        	self.gameReady = true;
-        	console.log(self.words);
+        	angular.forEach(words, function(value, key) {
+        		if(angular.isDefined(value.name)){
+        			self.words.push(value.name.toUpperCase());
+        		}
+        	});
+        	self.newWord();
         }, function(reason) {
         	alert('Failed: ' + reason);
         });
@@ -84,6 +120,24 @@ angular.module('game').component('game', {
 	    			}
 	    		});
         	});
+        }
+        
+        // -> Fisher–Yates shuffle algorithm
+        var shuffleArray = function(array) {
+        	var m = array.length, t, i;
+
+        	// While there remain elements to shuffle
+        	while (m) {
+        		// Pick a remaining element…
+        		i = Math.floor(Math.random() * m--);
+
+        		// And swap it with the current element.
+        		t = array[m];
+        		array[m] = array[i];
+        		array[i] = t;
+        	}
+
+        	return array;
         }
 	}]
 });
