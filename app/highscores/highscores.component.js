@@ -7,6 +7,5 @@ angular.module('highscores').component('highscores', {
 	controller : ['User', '$http', function HighscoresController(User, $http) { 
 		var self = this;
 		self.users = User.query();
-		console.log(self.users);
 	}]
 });

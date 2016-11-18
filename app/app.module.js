@@ -5,7 +5,8 @@ angular.module('guessTheWordApp', [
   'registerForm',
   'game',
   'highscores',
-  'ngCookies'
+  'ngCookies',
+  'base64'
 ]).controller('ApplicationController', ['User', '$scope', '$cookies', function (User, $scope, $cookies) {
 	$scope.currentUser = null;
 	

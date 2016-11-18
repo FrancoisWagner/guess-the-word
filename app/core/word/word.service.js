@@ -4,10 +4,12 @@ angular.
 module('core.word').
 factory('Word', ['$resource', 'RESTAPI_CONFIG',
   function($resource, restApiConfig) {
-	  var hostUrl = restApiConfig.hostUrl;
-    return $resource(hostUrl + '/words.json', {}, {
+    return $resource(restApiConfig.DATABASE_URL + '/words.json', {}, {
       query: {
         method: 'GET'
+      },
+      create: {
+    	  method: "POST"
       }
     });
   }

@@ -10,7 +10,9 @@ angular.
         	  isArray: false
           },
           create: {
-        	  method: "POST"
+        	  method: "PUT",
+        	  params: {id: 'id'},
+        	  url: restApiConfig.DATABASE_URL + "/users/:id.json"
           },
           get: {
         	  method: "GET",
