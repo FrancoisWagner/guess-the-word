@@ -1,4 +1,4 @@
 'use strict';
 
 // Define the `highscores` module
-angular.module('highscores', ['core.user']);
+angular.module('highscores', ['core.user', 'core.score']);

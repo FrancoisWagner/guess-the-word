@@ -4,28 +4,36 @@
 // template
 angular.module('game').component('game', {
 	templateUrl : 'game/game.template.html',
-	controller : ['Word', 'Score', 'CONFIG', '$cookies', '$scope', '$interval', '$q', '$http', function GameController(Word, Score, config, $cookies, $scope, $interval, $q, $http) {
+	controller : ['Word', 'Score', '$cookies', '$scope', '$interval', '$q', '$http', 'CONFIG', function GameController(Word, Score, $cookies, $scope, $interval, $q, $http, config) {
 		var self = this;
 		
-		self.searchWord = '';
-		self.countDown = config.GAME_TIME;
-		self.startGame = undefined;
-		self.gameReady = false;
-		self.words = [];
-		self.currentWordScore = 0;
-		self.totalScore = 0;
-		self.currentWordString = '';
-		self.currentWordArray = [];
+		function initVars() {
+			self.searchWord = '';
+			self.countDown = config.GAME_TIME;
+			self.startGame = undefined;
+			self.gameReady = false;
+			self.words = [];
+			self.currentWordScore = 0;
+			self.totalScore = 0;
+			self.currentWordString = '';
+			self.currentWordArray = [];
+			self.wordIncorrect = false;
+		}
+		
+		initVars();
 		
 		self.stopGame = function() {
           if (angular.isDefined(self.startGame)) {
             $interval.cancel(self.startGame);
             self.startGame = undefined;
-            var score = {
-            	user_id : $cookies.get('user'),
-            	score : self.totalScore
-            };
-            Score.create(score);
+            
+            if($cookies.get('user') && self.totalScore > 0){
+	            var score = {
+	            	user_id : $cookies.get('user'),
+	            	score : self.totalScore
+	            };
+	            Score.create(score);
+            }
           }
         }
         
@@ -45,6 +53,13 @@ angular.module('game').component('game', {
         		self.totalScore += self.currentWordScore;
         		self.searchWord = '';
         		self.newWord();
+        	}
+        	
+        	if(self.currentWordString.startsWith(self.searchWord.toUpperCase())){
+        		self.wordIncorrect = false;
+        	}
+        	else {
+        		self.wordIncorrect = true;
         	}
         }
         

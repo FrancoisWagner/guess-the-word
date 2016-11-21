@@ -9,7 +9,7 @@ angular.
           method: 'GET'
         },
         create: {
-      	  method: "POST"
+      	  method: 'POST'
         }
       });
     }

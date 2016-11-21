@@ -9,10 +9,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="(key, user) in $ctrl.users track by $index">
+    <tr ng-repeat="score in $ctrl.scores | orderBy:'-score'">
       <th scope="row">{{ $index + 1 }}</th>
-      <td>{{ user.name }}</td>
-      <td>25</td>
+      <td>{{ score.user_name }}</td>
+      <td>{{ score.score }}</td>
       <!-- 
       <td>
         <button type="button" class="btn btn-sm btn-default"

@@ -8,3 +8,4 @@ tmp
 .project
 .settings/
 .tern-project
+npm-debug.log
