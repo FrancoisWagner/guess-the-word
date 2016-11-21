@@ -2,31 +2,34 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" ng-show="$ctrl.gameReady && !$ctrl.gameIsOver">
       <p>
         <button
             ng-repeat="letter in $ctrl.currentWordArray track by $index"
-            class="btn btn-default btn-letter">
+            class="btn btn-default btn-letter"
+            disabled="disabled">
             {{ letter }}
         </button>
       </p>
-      <div class="form-group" ng-show="$ctrl.countDown > 0" ng-class="{ 'has-error' : $ctrl.wordIncorrect }">
+      <div class="form-group" ng-class="{ 'has-error' : $ctrl.guessInputInvalid() }">
         <input class="form-control" 
                 ng-model="$ctrl.searchWord"
                 ng-change="$ctrl.update()"
-                ng-disabled="!$ctrl.gameReady"
                 ng-keydown="$ctrl.detectBackspace($event)"
                 aria-describedby="helpGame" />
         <span id="helpGame" class="help-block">The word to guess is a sport.</span>
       </div>
     </div>
-    <div class="col-md-2">
-      <h3>Score</h3>
-      <p class="clock">{{ $ctrl.totalScore }}</p>
+    <div class="col-md-4" ng-show="$ctrl.gameIsOver">
+        <p>Well done {{ $parent.currentUser }}, you got a score of <strong>{{ $ctrl.totalScore }}</strong> ! <button type="button" class="btn btn-link" ng-click="$ctrl.newGame()" >Play again ?!</button></p>
     </div>
     <div class="col-md-2">
       <h3>Time</h3>
       <p class="clock">{{ $ctrl.countDown }}</p>
+    </div>
+    <div class="col-md-2">
+      <h3>Score</h3>
+      <p class="clock">{{ $ctrl.totalScore }}</p>
     </div>
   </div>
 </div>

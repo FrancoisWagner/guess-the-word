@@ -6,13 +6,14 @@ angular.module('game').component('game', {
 	templateUrl : 'game/game.template.html',
 	controller : ['Word', 'Score', '$cookies', '$scope', '$interval', '$q', '$http', 'CONFIG', function GameController(Word, Score, $cookies, $scope, $interval, $q, $http, config) {
 		var self = this;
+		self.words = [];
 		
 		function initVars() {
 			self.searchWord = '';
-			self.countDown = config.GAME_TIME;
+			self.countDown = 40;
 			self.startGame = undefined;
 			self.gameReady = false;
-			self.words = [];
+			self.gameIsOver = false;
 			self.currentWordScore = 0;
 			self.totalScore = 0;
 			self.currentWordString = '';
@@ -22,10 +23,12 @@ angular.module('game').component('game', {
 		
 		initVars();
 		
+		// Stop the game when time is over and insert score in database
 		self.stopGame = function() {
           if (angular.isDefined(self.startGame)) {
             $interval.cancel(self.startGame);
             self.startGame = undefined;
+            self.gameIsOver = true;
             
             if($cookies.get('user') && self.totalScore > 0){
 	            var score = {
@@ -37,6 +40,7 @@ angular.module('game').component('game', {
           }
         }
         
+		// Method called when user type in the game's input
         self.update = function() {
         	if(angular.isUndefined(self.startGame)){
         		self.startGame = $interval(function(){
@@ -54,15 +58,19 @@ angular.module('game').component('game', {
         		self.searchWord = '';
         		self.newWord();
         	}
-        	
+        }
+        
+        // Method to know if the user is not guessing the correct word
+        self.guessInputInvalid = function() {
         	if(self.currentWordString.startsWith(self.searchWord.toUpperCase())){
-        		self.wordIncorrect = false;
+        		return false;
         	}
         	else {
-        		self.wordIncorrect = true;
+        		return true;
         	}
         }
         
+        // Randomly select a word on the list and set its max score
         self.newWord = function(){
         	self.currentWordString = self.words[Math.floor(Math.random() * self.words.length)];
         	self.currentWordArray = self.currentWordString.split("");
@@ -72,6 +80,7 @@ angular.module('game').component('game', {
         	self.gameReady = true;
         }
         
+        // Detect backspace key and decrease score
         self.detectBackspace = function (event){
         	if (event.keyCode === 8) {
         		if(self.currentWordScore > 0) {
@@ -80,6 +89,13 @@ angular.module('game').component('game', {
         	}
         }
         
+        // Initialize a new game
+        self.newGame = function() {
+        	initVars();
+        	self.newWord();
+        }
+        
+        // Get the words from database and put them in an array
         var promise = getWords();
         promise.then(function(words) {
         	angular.forEach(words, function(value, key) {
@@ -92,6 +108,7 @@ angular.module('game').component('game', {
         	alert('Failed: ' + reason);
         });
         
+        // Get the words from the database or insert them if not exist
         function getWords(){
         	return $q(function(resolve, reject) {
 	        	// list of all promises

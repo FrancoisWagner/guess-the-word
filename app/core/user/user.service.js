@@ -6,18 +6,18 @@ angular.
     function($resource, config) {
       return $resource(config.DATABASE_URL + '/users.json', {}, {
           query: {
-        	  method: "GET",
+        	  method: 'GET',
         	  isArray: false
           },
           create: {
-        	  method: "PUT",
+        	  method: 'PUT',
         	  params: {id: 'id'},
-        	  url: config.DATABASE_URL + "/users/:id.json"
+        	  url: config.DATABASE_URL + '/users/:id.json'
           },
           get: {
-        	  method: "GET",
+        	  method: 'GET',
         	  params: {id: 'id'},
-        	  url: config.DATABASE_URL + "/users/:id.json"
+        	  url: config.DATABASE_URL + '/users/:id.json'
           }
       });
   	}
